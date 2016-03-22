@@ -38,7 +38,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface
         return [
             [['ativo'], 'integer'],
             [['login'], 'string', 'max' => 50],
-            [['senha'], 'string', 'max' => 30],
+            [['senha'], 'string', 'max' => 100],
             [['nome'], 'string', 'max' => 100],
             [['telefone'], 'string', 'max' => 11]
         ];
@@ -120,7 +120,7 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface
     {
         $usuario = Usuario::find()->where(['login' => $username])->one();
 			
-			if($usuario != null) return $usuario;
+        if($usuario != null) return $usuario;
 
         return null;
     }
@@ -157,6 +157,6 @@ class Usuario extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return md5($this->senha) === $password;
+        return $this->senha === md5($password);
     }
 }

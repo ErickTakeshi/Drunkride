@@ -61,18 +61,23 @@ class UsuarioController extends Controller
     public function actionCreate()
     {
         $model = new Usuario();
-				
-				$model->load(Yii::$app->request->post());
-				
-			
-        if ($model->save()) {
-					  $model->senha = md5($model->senha);
-            return $this->redirect(['view', 'id' => $model->idusuario]);
-        } else {
+        if($model->load(Yii::$app->request->post())){
+            $model->senha = md5($model->senha);
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->idusuario]);
+            } else {
+                $model->senha = null;
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }    
+        }else{
+            $model->senha = null;
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
+        
     }
 
     /**
@@ -84,10 +89,21 @@ class UsuarioController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idusuario]);
-        } else {
+        $usuario = Usuario::findIdentity($id);
+      
+        if($model->load(Yii::$app->request->post())){
+            if($model->senha != $usuario->senha) {
+                $model->senha = md5($model->senha);    
+            }
+            if ($model-> save()) {
+                return $this->redirect(['view', 'id' => $model->idusuario]);
+            } else {              
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }    
+        }else{
+            
             return $this->render('update', [
                 'model' => $model,
             ]);
