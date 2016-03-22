@@ -56,9 +56,25 @@ class LoginForm extends Model
      */
     public function login()
     {
+				//$form = $this->getUser();
+				//var_dump($form);
+//				echo "erooooou";
+//				$usuarioBD = Usuario::find()->where(['login'=>$this->username])->one();
+//				var_dump($usuarioBD);
+//				if($usuarioBD == null){
+//					echo "erooooou";
+//					return false;
+//					
+//				}
+//				
+//				if($usuarioBD->getSenha() == $this->password){
+//					return true;
+//				}
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
         }
+//				echo "erooooou";
+				
         return false;
     }
 
@@ -70,7 +86,7 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = Usuario::findByUsername($this->username);
         }
 
         return $this->_user;

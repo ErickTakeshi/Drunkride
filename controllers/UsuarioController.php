@@ -61,8 +61,12 @@ class UsuarioController extends Controller
     public function actionCreate()
     {
         $model = new Usuario();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+				
+				$model->load(Yii::$app->request->post());
+				
+			
+        if ($model->save()) {
+					  $model->senha = md5($model->senha);
             return $this->redirect(['view', 'id' => $model->idusuario]);
         } else {
             return $this->render('create', [
