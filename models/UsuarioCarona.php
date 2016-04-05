@@ -9,7 +9,9 @@ use Yii;
  *
  * @property integer $usuario_idusuario
  * @property integer $carona_idcarona
+ * @property integer $idCriador
  *
+ * @property Usuario $idCriador0
  * @property Carona $caronaIdcarona
  * @property Usuario $usuarioIdusuario
  */
@@ -29,8 +31,7 @@ class UsuarioCarona extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['usuario_idusuario', 'carona_idcarona'], 'required'],
-            [['usuario_idusuario', 'carona_idcarona'], 'integer']
+            [['usuario_idusuario', 'carona_idcarona', 'idCriador'], 'integer']
         ];
     }
 
@@ -40,9 +41,18 @@ class UsuarioCarona extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'usuario_idusuario' => Yii::t('app', 'Usuario Idusuario'),
-            'carona_idcarona' => Yii::t('app', 'Carona Idcarona'),
+            'usuario_idusuario' => 'Usuario Idusuario',
+            'carona_idcarona' => 'Carona Idcarona',
+            'idCriador' => 'Id Criador',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdCriador0()
+    {
+        return $this->hasOne(Usuario::className(), ['idusuario' => 'idCriador']);
     }
 
     /**

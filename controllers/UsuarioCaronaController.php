@@ -62,7 +62,7 @@ class UsuarioCaronaController extends Controller
     public function actionCreate()
     {
         $model = new UsuarioCarona();
-
+        $model->idCriador=Yii::$app->user->id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'usuario_idusuario' => $model->usuario_idusuario, 'carona_idcarona' => $model->carona_idcarona]);
         } else {
